@@ -1,4 +1,8 @@
 import React, { useState } from "react";
+
+// ----------------------------------------------------------------------------------------------------------
+// HELPER FUNCTIONS
+// ----------------------------------------------------------------------------------------------------------
 function getRandomValue(min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
 }
@@ -8,16 +12,26 @@ function createLogAttack(isPlayer, damage) {
 function createLogHeal(healing) {
   return { isPlayer: true, isDamage: false, text: ` heal ${healing} life points` };
 }
+
 const Health = 100;
+
 function Game() {
+  // ----------------------------------------------------------------------------------------------------------
+  // STATES & VARIABLES
+  // ----------------------------------------------------------------------------------------------------------
   const [playerHP, setPlayerHP] = useState(Health);
   const [monsterHP, setMonsterHP] = useState(Health);
   const [logs, setLogs] = useState([]);
   const [round, setRound] = useState(0);
   const specialAvailable = round > 0 && round % 3 === 0;
+
   function addLogs(newLogs) {
     setLogs((prev) => [...newLogs.reverse(), ...prev]);
   }
+
+  // ----------------------------------------------------------------------------------------------------------
+  // BUTTONS EVENT FUNCTIONS
+  // ----------------------------------------------------------------------------------------------------------
   function attackHandler() {
     const dmg = getRandomValue(5, 12);
     const monsterDmg = getRandomValue(8, 15);
@@ -50,6 +64,10 @@ function Game() {
     setLogs([]);
     setRound(0);
   }
+
+  // ----------------------------------------------------------------------------------------------------------
+  // JSX FUNCTIONS
+  // ----------------------------------------------------------------------------------------------------------
   function checkWinner() {
     if (playerHP <= 0 && monsterHP <= 0) return "Draw!";
     if (playerHP <= 0) return "Monster Wins!";
@@ -75,6 +93,10 @@ function Game() {
       </div>
     );
   }
+
+  // ----------------------------------------------------------------------------------------------------------
+  // MAIN TEMPLATE
+  // ----------------------------------------------------------------------------------------------------------
   const winner = checkWinner();
   return (
     <>
@@ -108,4 +130,5 @@ function Game() {
     </>
   );
 }
+
 export default Game;
